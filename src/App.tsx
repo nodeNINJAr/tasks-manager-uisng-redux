@@ -7,7 +7,7 @@ export const App = () => {
     <div className='text-red-500'>
          <Navbar/>
         {/*  */}
-        <main>
+        <main className='container px-10'>
           <Outlet/>
         </main>
         {/*  */}

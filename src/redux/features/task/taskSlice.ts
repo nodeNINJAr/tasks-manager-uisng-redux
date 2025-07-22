@@ -20,12 +20,28 @@ const initialState :  InitialState ={
           priority:"High",  
         },
                 {
-          id:"yashkdddkld",
-          title:"Initialize task",
+          id:"yashkdddkld1",
+          title:"Working with node js",
+          description:"Create home page and rounting",
+          dueDate:"2025-12",
+          isCompleted:false,
+          priority:"Low",  
+        },
+                 {
+          id:"yashkdddkld2",
+          title:"Working with redux js",
           description:"Create home page and rounting",
           dueDate:"2025-12",
           isCompleted:false,
           priority:"High",  
+        },
+                 {
+          id:"yashkdddkld3",
+          title:"Working with next js",
+          description:"Create home page and rounting",
+          dueDate:"2025-12",
+          isCompleted:false,
+          priority:"Medium",  
         }
     ],
     filter:"all"
