@@ -14,7 +14,7 @@ interface ITask{
     isCompleted:boolean;
     priority:string;
     id:string;
-    userId:string;
+    userId:string | null;
 
 }
 
