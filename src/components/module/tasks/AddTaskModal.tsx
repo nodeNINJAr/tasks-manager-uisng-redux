@@ -15,9 +15,10 @@ import { Input } from "@/components/ui/input"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { useAppDispatch } from "@/hooks/hooks"
+import { useAppDispatch, useAppSelector } from "@/hooks/hooks"
 import { cn } from "@/lib/utils"
 import { addTask } from "@/redux/features/task/taskSlice"
+import { selectUsers } from "@/redux/features/user/userSlice"
 import type { ITask } from "@/type"
 import { format } from "date-fns"
 import { CalendarIcon } from "lucide-react"
@@ -34,6 +35,8 @@ const onSubmit:SubmitHandler<FieldValues>=(data)=>{
     disPatch(addTask(data as ITask))
 }
 
+// USERS
+const users = useAppSelector(selectUsers)
 
 
 
@@ -81,6 +84,36 @@ const onSubmit:SubmitHandler<FieldValues>=(data)=>{
                     </FormItem>
                     )}
                  />
+
+                      {/*  */}
+                   <FormField
+                    control={form.control}
+                    name="userId"
+                    render={({field}) => ( 
+                         <FormItem>
+                          <FormLabel>Assign To Users</FormLabel>
+                          {/*  */}
+                          <Select 
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
+                            <FormControl>
+                                  <SelectTrigger className="w-full">
+                                    <SelectValue placeholder="Select Your Users" />
+                                </SelectTrigger>
+                            </FormControl>
+                            {/*  */}
+                              <SelectContent>
+                                 {users.map(user => <SelectItem disabled={!user.id} value={user.id}>{user.name || "No One"}</SelectItem>)}
+                              </SelectContent>
+                            </Select>
+                            {/*  */}
+                      </FormItem>
+                      
+                     )}
+                 />
+                  
+
                  {/*  */}
                    <FormField
                     control={form.control}

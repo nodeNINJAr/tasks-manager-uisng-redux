@@ -1,6 +1,6 @@
 import { AddTaskModal } from '@/components/module/tasks/AddTaskModal';
 import TaskCard from '@/components/module/tasks/TaskCard';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks'
 import { selectTasks, updateFilter } from '@/redux/features/task/taskSlice';
 

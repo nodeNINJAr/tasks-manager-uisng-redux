@@ -1,8 +1,9 @@
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox';
-import { useAppDispatch } from '@/hooks/hooks';
+import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
 import { cn } from '@/lib/utils';
 import { deleteTask, toggleCompleteState } from '@/redux/features/task/taskSlice';
+import { selectUsers } from '@/redux/features/user/userSlice';
 import { Trash2 } from 'lucide-react'
 
 
@@ -12,15 +13,18 @@ interface ITask{
     description:string;
     isCompleted:boolean;
     priority:string;
+    id:string;
+    userId:string;
 
 }
 
 // 
-const TaskCard = ({title, description, isCompleted, priority, id}:ITask) => {
-
-
-
+const TaskCard = ({title, description, isCompleted, priority, id, userId}:ITask) => {
+// 
 const disPatch = useAppDispatch();
+// 
+const users = useAppSelector(selectUsers)  
+const user = users.find((user)=> user.id === userId)
 
     // 
   return (
@@ -42,6 +46,7 @@ const disPatch = useAppDispatch();
                 <Checkbox checked={isCompleted} onClick={()=>disPatch(toggleCompleteState(id))} />
             </div>
         </div>
+        <p>Assign to : {userId ? user?.name  : "No One"}</p>
         <p className='mt-5'>{description}</p>
     </div>
   )

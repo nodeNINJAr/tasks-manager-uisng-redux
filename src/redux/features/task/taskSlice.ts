@@ -1,7 +1,6 @@
 import type { RootState } from "@/redux/store";
 import type { ITask } from "@/type";
 import { createSlice, nanoid, type PayloadAction } from "@reduxjs/toolkit";
-import { v4 as uuidv4 } from 'uuid';
 
 // type
 interface InitialState {
@@ -19,6 +18,7 @@ const initialState :  InitialState ={
           dueDate:"2025-12",
           isCompleted:true,
           priority:"high",  
+            userId:"kajdd"
         },
                 {
           id:"yashkdddkld1",
@@ -27,6 +27,7 @@ const initialState :  InitialState ={
           dueDate:"2025-12",
           isCompleted:false,
           priority:"low",  
+          userId:"kajdd"
         },
                  {
           id:"yashkdddkld2",
@@ -35,6 +36,7 @@ const initialState :  InitialState ={
           dueDate:"2025-12",
           isCompleted:false,
           priority:"high",  
+          userId:"kajdd"
         },
                  {
           id:"yashkdddkld3",
@@ -43,6 +45,7 @@ const initialState :  InitialState ={
           dueDate:"2025-12",
           isCompleted:false,
           priority:"medium",  
+          userId:"kajdd"
         }
     ],
     filter:"all"
@@ -52,7 +55,7 @@ const initialState :  InitialState ={
 type DraftTask = Pick<ITask, "title" | "description" | "dueDate" | "priority" >;
 
 // 
-const createTask = (taskData:DraftTask): ITask =>{
+const createTask = (taskData:DraftTask):ITask =>{
   return {id:nanoid(), isCompleted:false, ...taskData}
 };
 
