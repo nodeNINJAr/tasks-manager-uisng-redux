@@ -17,22 +17,44 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea"
 import { useAppDispatch, useAppSelector } from "@/hooks/hooks"
 import { cn } from "@/lib/utils"
+import { useCreateTaskMutation } from "@/redux/api/baseApi"
+
 import { addTask } from "@/redux/features/task/taskSlice"
 import { selectUsers } from "@/redux/features/user/userSlice"
 import type { ITask } from "@/type"
 import { format } from "date-fns"
 import { CalendarIcon } from "lucide-react"
+import { useState } from "react"
 import { useForm, type FieldValues, type SubmitHandler } from "react-hook-form"
 
 export function AddTaskModal() {
 
 const form = useForm();
 
-const disPatch = useAppDispatch();
+// const disPatch = useAppDispatch();
 
-const onSubmit:SubmitHandler<FieldValues>=(data)=>{
+const [createTask, {data}]  = useCreateTaskMutation();
+console.log("data",data);
+
+// 
+const [open,setOpen] = useState(false)
+// 
+const onSubmit:SubmitHandler<FieldValues>= async(data)=>{
     console.log(data);
-    disPatch(addTask(data as ITask))
+    // 
+    const taskData = {
+        ...data,
+        isCompleted:false
+    }
+     
+     const res = await createTask(taskData).unwrap();
+     console.log("res", res);
+
+    //  
+    setOpen(false)
+    form.reset();
+    // using redux front end only
+    // disPatch(addTask(data as ITask))
 }
 
 // USERS

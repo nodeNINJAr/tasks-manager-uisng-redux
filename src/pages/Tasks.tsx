@@ -2,17 +2,31 @@ import { AddTaskModal } from '@/components/module/tasks/AddTaskModal';
 import TaskCard from '@/components/module/tasks/TaskCard';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks'
+import { useGetTasksQuery } from '@/redux/api/baseApi';
 import { selectTasks, updateFilter } from '@/redux/features/task/taskSlice';
 
 const Tasks = () => {
 
 
 //
-const tasks = useAppSelector(selectTasks); 
+// const tasks = useAppSelector(selectTasks); 
 
-console.log(tasks);
+// console.log(tasks);
 const disPatch = useAppDispatch();
+// from api
+const {isError,isLoading,data} = useGetTasksQuery(undefined,{
+  // for refetch
+   pollingInterval:20000,//20 sec loop
+   refetchOnMountOrArgChange:true, //refetch on route chnages
+   refetchOnFocus:true,
+   refetchOnReconnect:true, // when internet is reconnected
+})
 
+
+console.log(data, isLoading, isError);
+
+
+  if(isLoading) return "Loading..."
 
   return (
    <div>
@@ -33,7 +47,7 @@ const disPatch = useAppDispatch();
        </div>
     </div>
        <div className='space-y-3'>
-         {tasks.map(task => <TaskCard key={task.id} {...task}/>)}
+         {data.tasks.map(task => <TaskCard key={task.id} {...task}/>)}
     </div>
    </div>
   )
