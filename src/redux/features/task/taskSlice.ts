@@ -1,6 +1,7 @@
 import type { RootState } from "@/redux/store";
 import type { ITask } from "@/type";
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, nanoid, type PayloadAction } from "@reduxjs/toolkit";
+import { v4 as uuidv4 } from 'uuid';
 
 // type
 interface InitialState {
@@ -16,8 +17,8 @@ const initialState :  InitialState ={
           title:"Initialize task",
           description:"Create home page and rounting",
           dueDate:"2025-12",
-          isCompleted:false,
-          priority:"High",  
+          isCompleted:true,
+          priority:"high",  
         },
                 {
           id:"yashkdddkld1",
@@ -25,7 +26,7 @@ const initialState :  InitialState ={
           description:"Create home page and rounting",
           dueDate:"2025-12",
           isCompleted:false,
-          priority:"Low",  
+          priority:"low",  
         },
                  {
           id:"yashkdddkld2",
@@ -33,7 +34,7 @@ const initialState :  InitialState ={
           description:"Create home page and rounting",
           dueDate:"2025-12",
           isCompleted:false,
-          priority:"High",  
+          priority:"high",  
         },
                  {
           id:"yashkdddkld3",
@@ -41,25 +42,53 @@ const initialState :  InitialState ={
           description:"Create home page and rounting",
           dueDate:"2025-12",
           isCompleted:false,
-          priority:"Medium",  
+          priority:"medium",  
         }
     ],
     filter:"all"
 }
+
+// type for task
+type DraftTask = Pick<ITask, "title" | "description" | "dueDate" | "priority" >;
+
+// 
+const createTask = (taskData:DraftTask): ITask =>{
+  return {id:nanoid(), isCompleted:false, ...taskData}
+};
 
 // 
 const taskSlice = createSlice({
     name:"task",
     initialState,
     reducers:{
-        
-    }
+            addTask:(state, action:PayloadAction<ITask>)=>{   
+            const taskData = createTask(action.payload)
+            // 
+            state.tasks.push(taskData);
+        },
+        // 
+        toggleCompleteState : (state,action:PayloadAction<string>)=>{
+          console.log(action.payload);
+             state.tasks.forEach((task)=>
+                task.id === action.payload 
+                ? ( task.isCompleted = !task.isCompleted )
+                : task
+              )
+        },
+        deleteTask : (state, action:PayloadAction<string>)=>{
+          console.log(action.payload);
+          state.tasks = state.tasks.filter((task) => task.id !== action.payload)
+        },
+    },
 })
 
 
 export const selectTasks = (state:RootState)=>{
    return state.todo.tasks;
 }
+
+export const {addTask, toggleCompleteState, deleteTask} = taskSlice.actions;
+
 
 export const selectFilter = (state:RootState)=>{
    return state.todo.filter;
